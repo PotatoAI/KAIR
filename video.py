@@ -33,9 +33,9 @@ if __name__ == '__main__':
         os.makedirs(fdir, exist_ok=True)
         # sh(f"mv {fname} {fdir}/{base}")
 
-    # task = "001_VRT_videosr_bi_REDS_6frames"
-    task = "002_VRT_videosr_bi_REDS_16frames"
-    # task = "003_VRT_videosr_bi_Vimeo_7frames"
+    # task = "001_VRT_videosr_bi_REDS_6frames" # done
+    # task = "002_VRT_videosr_bi_REDS_16frames" # done
+    task = "003_VRT_videosr_bi_Vimeo_7frames"
     # task = "004_VRT_videosr_bd_Vimeo_7frames"
     # task = "005_VRT_videodeblurring_DVD"
     # task = "006_VRT_videodeblurring_GoPro"
@@ -45,6 +45,6 @@ if __name__ == '__main__':
     command = f"{poetry} main_test_vrt.py --task {task} --folder_lq {in_pic_path} --tile 6 128 128 --tile_overlap 2 20 20"
     sh(command)
 
-    command = f"ffmpeg -framerate 15 -pattern_type glob -i 'results/{task}/{n}/*.png' -c:v libx264 -pix_fmt yuv420p {output_path}"
+    command = f"ffmpeg -y -framerate 15 -pattern_type glob -i 'results/{task}/{n}/*.png' -c:v libx264 -pix_fmt yuv420p {output_path}"
     sh(command)
     sh(f"cp -f output.mp4 outputs/{task}.mp4")
