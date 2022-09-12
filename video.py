@@ -33,7 +33,7 @@ if __name__ == '__main__':
         sh(f"mv {fname} {fdir}/{base}")
 
     task = "001_VRT_videosr_bi_REDS_6frames"
-    command = f"{poetry} main_test_vrt.py --task {task} --folder_lq {in_pic_path}/000 --tile 40 64 64 --tile_overlap 2 20 20"
+    command = f"{poetry} main_test_vrt.py --task {task} --folder_lq {in_pic_path} --tile 6 128 128 --tile_overlap 2 20 20"
     sh(command)
 
     command = f"ffmpeg -framerate 15 -pattern_type glob -i '{out_pic_path}/*.png' -c:v libx264 -pix_fmt yuv420p {output_path}"
