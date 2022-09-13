@@ -2,12 +2,16 @@ import sys
 import os
 import glob
 from tqdm import tqdm
+from logging import info
+import coloredlogs
+
+coloredlogs.install(level='INFO')
 
 poetry = "poetry run python"
 
 
 def sh(cmd: str):
-    print(f">>> {cmd}")
+    info(f">>> {cmd}")
     os.system(cmd)
 
 
@@ -15,7 +19,7 @@ if __name__ == '__main__':
     n = "000"
     input_path = sys.argv[1]
     output_path = sys.argv[2]
-    print(f"Converting {input_path} -> {output_path}")
+    info(f"Converting {input_path} -> {output_path}")
 
     sh("rm tmp/* -rf")
     in_pic_path = f"tmp/{input_path}"
@@ -31,7 +35,7 @@ if __name__ == '__main__':
         base = os.path.basename(fname)
         fdir = f"{in_pic_path}/{n}"
         os.makedirs(fdir, exist_ok=True)
-        # sh(f"mv {fname} {fdir}/{base}")
+        sh(f"mv {fname} {fdir}/{base}")
 
     # task = "001_VRT_videosr_bi_REDS_6frames" # done
     task = "002_VRT_videosr_bi_REDS_16frames"  # done
@@ -45,6 +49,6 @@ if __name__ == '__main__':
     command = f"{poetry} main_test_vrt.py --task {task} --folder_lq {in_pic_path} --tile 6 128 128 --tile_overlap 2 20 20"
     sh(command)
 
-    command = f"ffmpeg -y -framerate 15 -pattern_type glob -i 'results/{task}/{n}/*.png' -c:v libx264 -pix_fmt yuv420p {output_path}"
+    command = f"ffmpeg -y -framerate 30 -pattern_type glob -i 'results/{task}/{n}/*.png' -c:v libx264 -pix_fmt yuv420p {output_path}"
     sh(command)
     sh(f"cp -f output.mp4 outputs/{task}.mp4")
