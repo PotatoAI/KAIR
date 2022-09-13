@@ -17,14 +17,14 @@ if __name__ == '__main__':
     output_path = sys.argv[2]
     print(f"Converting {input_path} -> {output_path}")
 
-    # sh("rm tmp/* -rf")
+    sh("rm tmp/* -rf")
     in_pic_path = f"tmp/{input_path}"
     os.makedirs(in_pic_path, exist_ok=True)
     out_pic_path = f"tmp/{output_path}"
     os.makedirs(out_pic_path, exist_ok=True)
 
-    command = f"ffmpeg -i {input_path} {in_pic_path}/%04d.png -hide_banner"
-    # sh(command)
+    command = f"ffmpeg -i {input_path} -qscale:v 1 -qmin 1 -qmax 1 -vsync 0 {in_pic_path}/%04d.png -hide_banner"
+    sh(command)
 
     files = glob.glob(f"{in_pic_path}/*.png")
     for fname in files:
@@ -34,8 +34,8 @@ if __name__ == '__main__':
         # sh(f"mv {fname} {fdir}/{base}")
 
     # task = "001_VRT_videosr_bi_REDS_6frames" # done
-    # task = "002_VRT_videosr_bi_REDS_16frames" # done
-    task = "003_VRT_videosr_bi_Vimeo_7frames"
+    task = "002_VRT_videosr_bi_REDS_16frames"  # done
+    # task = "003_VRT_videosr_bi_Vimeo_7frames"  # done
     # task = "004_VRT_videosr_bd_Vimeo_7frames"
     # task = "005_VRT_videodeblurring_DVD"
     # task = "006_VRT_videodeblurring_GoPro"
