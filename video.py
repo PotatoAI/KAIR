@@ -22,6 +22,7 @@ if __name__ == '__main__':
     info(f"Converting {input_path} -> {output_path}")
 
     sh("rm tmp/* -rf")
+    sh("rm {output_path} -f")
     in_pic_path = f"tmp/{input_path}"
     os.makedirs(in_pic_path, exist_ok=True)
     out_pic_path = f"tmp/{output_path}"
